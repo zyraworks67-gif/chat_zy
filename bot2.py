@@ -118,13 +118,17 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not message or not message.text:
         return
 
-    user_id = message.chat.id
-
-    # Ignore owner's own messages
-    if user_id == OWNER_ID:
+    # Ignore outgoing messages (when you reply manually)
+    if message.from_user and message.from_user.id == OWNER_ID:
+        return
+    
+    # Ignore messages sent by you in business chats
+    if hasattr(message, 'via_business_connection') and message.outgoing:
         return
 
+    user_id = message.chat.id
     user_message = message.text
+
     logger.info(f"Message from {user_id}: {user_message}")
 
     await asyncio.sleep(random.randint(5, 15))
@@ -139,6 +143,11 @@ def main():
     app.add_handler(MessageHandler(
         filters.TEXT & ~filters.COMMAND, handle_message
     ))
+
+    app.run_polling(
+        drop_pending_updates=True,
+        allowed_updates=["message", "business_message", "edited_business_message"]
+    )
 
     logger.info("Zyra bot is running...")
     app.run_polling(
