@@ -110,26 +110,34 @@ def get_reply(user_id: int, user_message: str) -> str:
 
 
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Handle incoming Telegram messages."""
-    user_id      = update.effective_user.id
-    user_message = update.message.text
+    message = update.message or update.business_message
 
-    if not user_message:
+    if not message or not message.text:
         return
+
+    user_id = message.chat.id
+    user_message = message.text
 
     logger.info(f"Message from {user_id}: {user_message}")
 
     await asyncio.sleep(random.randint(5, 15))
 
     reply = get_reply(user_id, user_message)
-    await update.message.reply_text(reply)
+    await message.reply_text(reply)
 
 
 def main():
     app = Application.builder().token(TELEGRAM_TOKEN).build()
-    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
+
+    app.add_handler(MessageHandler(
+        filters.TEXT & ~filters.COMMAND, handle_message
+    ))
+
     logger.info("Zyra bot is running...")
-    app.run_polling(drop_pending_updates=True)
+    app.run_polling(
+        drop_pending_updates=True,
+        allowed_updates=Update.ALL_TYPES
+    )
 
 
 if __name__ == "__main__":
