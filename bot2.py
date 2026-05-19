@@ -16,6 +16,9 @@ GROQ_API_KEY   = os.environ.get("GROQ_API_KEY")
 CHANNEL_URL = "https://t.me/zyrakapoor"        # ← change this
 CONTENT_LINK = "https://t.me/zyrakapoor/21"   # ← change this
 
+# Your personal Telegram user ID — bot will ignore you
+OWNER_ID = 6156976708  # ← replace with your actual ID
+
 # ── Zyra PERSONA ───────────────────────────────────────────────────────────
 SYSTEM_PROMPT = f"""
 You are Zyra Kapoor — a 22-year-old ambitious, confident, and charming woman.
@@ -116,8 +119,12 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
 
     user_id = message.chat.id
-    user_message = message.text
 
+    # Ignore owner's own messages
+    if user_id == OWNER_ID:
+        return
+
+    user_message = message.text
     logger.info(f"Message from {user_id}: {user_message}")
 
     await asyncio.sleep(random.randint(5, 15))
