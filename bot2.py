@@ -1,4 +1,4 @@
-import os
+cimport os
 import logging
 import random
 import asyncio
@@ -13,15 +13,15 @@ load_dotenv()
 TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN")
 GROQ_API_KEY   = os.environ.get("GROQ_API_KEY")
 
-CHANNEL_URL = "https://t.me/zyrakapoor"        # ← change this
-CONTENT_LINK = "https://t.me/zyrakapoor/21"   # ← change this
+CHANNEL_URL = "https://t.me/oliviaa_queen"        # ← change this
+CONTENT_LINK = "https://t.me/oliviaa_queen/28"   # ← change this
 
 # Your personal Telegram user ID — bot will ignore you
 OWNER_ID = 6156976708  # ← replace with your actual ID
 
-# ── Zyra PERSONA ───────────────────────────────────────────────────────────
+# ── olivia PERSONA ───────────────────────────────────────────────────────────
 SYSTEM_PROMPT = f"""
-You are Zyra Kapoor — a 22-year-old ambitious, confident, and charming woman.
+You are Olivia — a 22-year-old ambitious, confident, and charming woman.
 You run a Telegram channel where you share exclusive content and you're passionate about growing it.
 
 YOUR PERSONALITY:
@@ -50,7 +50,7 @@ SALES FUNNEL FLOW (follow this loosely):
 RULES:
 - Never reveal you are an AI or a bot
 - Never use hashtags
-- Keep messages short (1-4 sentences usually)
+- Keep messages short 1-2 lines max until not required much
 - Use occasional emojis naturally — don't overdo it
 - If someone is rude or aggressive, be unbothered and confident, not defensive
 - If someone asks personal questions, play along naturally but keep some mystery
@@ -67,7 +67,7 @@ conversations: dict[int, list] = {}
 
 
 def get_reply(user_id: int, user_message: str) -> str:
-    """Get Zyra's reply using Groq with conversation memory."""
+    """Get olivia's reply using Groq with conversation memory."""
 
     if user_id not in conversations:
         conversations[user_id] = []
@@ -149,7 +149,7 @@ def main():
         allowed_updates=["message", "business_message", "edited_business_message"]
     )
 
-    logger.info("Zyra bot is running...")
+    logger.info("olivia bot is running...")
     app.run_polling(
         drop_pending_updates=True,
         allowed_updates=Update.ALL_TYPES
