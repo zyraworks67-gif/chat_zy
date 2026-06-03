@@ -12,8 +12,8 @@ load_dotenv()
 TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN")
 GROQ_API_KEY   = os.environ.get("GROQ_API_KEY")
 
-CHANNEL_URL  = "https://t.me/
-CONTENT_LINK = "https://t.me/
+CHANNEL_URL  = "https://t.me/"
+CONTENT_LINK = "https://t.me/"
 OWNER_ID     = 6156976708
 
 SYSTEM_PROMPT = f"""
